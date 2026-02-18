@@ -2,12 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Github, Linkedin, Mail, Youtube } from 'lucide-react';
 
+import { InteractiveProse } from '@/components/interactive-prose';
 import { PageContainer } from '@/components/layout/page-container';
-import { SectionHeading } from '@/components/sections/section-heading';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { siteConfig } from '@/config/site';
 import { getDictionary } from '@/lib/i18n';
 import { getServerLocale } from '@/lib/i18n-server';
+import { cn } from '@/lib/utils';
 
 export const metadata = {
   title: 'Contact'
@@ -24,9 +25,23 @@ export default function ContactPage() {
     { label: 'YouTube', href: siteConfig.social.youtube, icon: Youtube }
   ];
 
+  const toneClassByLabel: Record<string, string> = {
+    [dictionary.contact.email]: 'social-tone-mail',
+    GitHub: 'social-tone-github',
+    LinkedIn: 'social-tone-linkedin',
+    YouTube: 'social-tone-youtube'
+  };
+
   return (
     <PageContainer className="space-y-6">
-      <SectionHeading title={dictionary.contact.title} description={dictionary.contact.description} />
+      <div className="mb-8 max-w-2xl space-y-2">
+        <InteractiveProse
+          className="vision-prose experience-prose font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl"
+          wordDelayMs={150}
+        >
+          <h1>{dictionary.contact.title}</h1>
+        </InteractiveProse>
+      </div>
 
       <div className="space-y-4">
         <Card className="overflow-hidden">
@@ -50,7 +65,9 @@ export default function ContactPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{dictionary.contact.getInTouch}</CardTitle>
+            <CardTitle className="podcast-section-title text-xl sm:text-2xl">
+              {dictionary.contact.getInTouch}
+            </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
             {links.map((item) => {
@@ -61,13 +78,18 @@ export default function ContactPage() {
                   href={item.href}
                   target={item.href.startsWith('mailto') ? undefined : '_blank'}
                   rel={item.href.startsWith('mailto') ? undefined : 'noreferrer'}
-                  className="flex items-center justify-between rounded-md border p-4 text-sm hover:bg-accent"
+                  className={cn(
+                    'footer-social-link group flex items-center justify-between rounded-xl border p-4 text-sm transition-all duration-200 hover:-translate-y-0.5',
+                    toneClassByLabel[item.label] ?? 'social-tone-github'
+                  )}
                 >
                   <span className="inline-flex items-center gap-2">
-                    <Icon className="h-4 w-4 text-primary" />
+                    <Icon className="footer-social-icon h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110" />
                     {item.label}
                   </span>
-                  <span className="text-muted-foreground">{dictionary.contact.open}</span>
+                  <span className="rounded-full border border-border/65 bg-background/65 px-2.5 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">
+                    {dictionary.contact.open}
+                  </span>
                 </Link>
               );
             })}

@@ -36,9 +36,9 @@ export function EpisodeCard({ episode, labels }: { episode: PodcastEpisode; labe
       <CardContent className="flex-1">
         <p className="line-clamp-4 text-sm text-muted-foreground">{episode.description}</p>
       </CardContent>
-      <CardFooter className="flex items-center justify-between gap-2">
+      <CardFooter className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Badge variant="outline">{labels.episode ?? labels.badge ?? 'Episode'}</Badge>
-        <div className="flex items-center gap-3 text-sm">
+        <div className="flex flex-wrap items-center gap-3 text-sm">
           <Link href={`/podcast/${episode.slug}`} className="hover:text-primary">
             {labels.details}
           </Link>

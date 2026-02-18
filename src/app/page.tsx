@@ -3,6 +3,7 @@ import { ArrowUpRight, BriefcaseBusiness, GraduationCap, MicVocal } from 'lucide
 
 import { MotionReveal } from '@/components/motion-reveal';
 import { VoiceIntro, TranscriptLine } from '@/components/home/voice-intro';
+import { InteractiveProse } from '@/components/interactive-prose';
 import { PageContainer } from '@/components/layout/page-container';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -41,21 +42,39 @@ export default async function HomePage() {
   return (
     <PageContainer className="space-y-16">
       <MotionReveal>
-        <section className="space-y-8">
+        <section className="space-y-6 sm:space-y-8">
           <Badge variant="secondary" className="rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.18em]">
             {siteConfig.role}
           </Badge>
-          <h1 className="font-display text-balance max-w-4xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
-            {dictionary.home.title}
-          </h1>
-          <p className="text-balance max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            {dictionary.home.description}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild>
+          <InteractiveProse
+            className="vision-prose font-display text-balance max-w-4xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl"
+            wordDelayMs={150}
+            sequenceKey="home-hero"
+            step={1}
+          >
+            <h1>{dictionary.home.title}</h1>
+          </InteractiveProse>
+          <InteractiveProse
+            className="vision-prose text-balance max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
+            wordDelayMs={140}
+            sequenceKey="home-hero"
+            step={2}
+            hideUntilStart
+          >
+            <p>{dictionary.home.description}</p>
+          </InteractiveProse>
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Button
+              asChild
+              className="w-full bg-gradient-to-r from-primary to-primary/85 shadow-[0_14px_24px_-18px_hsl(var(--primary)/0.9)] transition-all duration-200 hover:-translate-y-0.5 hover:from-primary/95 hover:to-primary sm:w-auto"
+            >
               <Link href="/experience">{dictionary.home.viewExperience}</Link>
             </Button>
-            <Button asChild variant="outline">
+            <Button
+              asChild
+              variant="outline"
+              className="w-full border-border/75 bg-background/75 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-accent/45 hover:shadow-[0_12px_24px_-18px_hsl(var(--primary)/0.75)] sm:w-auto"
+            >
               <Link href="/contact">{dictionary.home.contact}</Link>
             </Button>
           </div>
@@ -76,9 +95,10 @@ export default async function HomePage() {
                   <p className="mb-6 text-sm text-muted-foreground">{item.description}</p>
                   <Link
                     href={item.href}
-                    className="inline-flex items-center text-sm font-medium text-primary"
+                    className="group/section-link inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/75 px-3 py-1.5 text-sm font-medium text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/35 hover:bg-accent/45 hover:shadow-[0_12px_24px_-18px_hsl(var(--primary)/0.8)]"
                   >
-                    {dictionary.home.openSection} <ArrowUpRight className="ml-1 h-4 w-4" />
+                    {dictionary.home.openSection}
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover/section-link:translate-x-0.5 group-hover/section-link:-translate-y-0.5" />
                   </Link>
                 </CardContent>
               </Card>
@@ -94,7 +114,6 @@ export default async function HomePage() {
           audioSrc={siteConfig.voiceIntro.audioSrc}
           transcript={transcript}
           title={dictionary.voice.title}
-          helperText={dictionary.voice.helper}
           placeholderText={dictionary.voice.placeholder}
           playLabel={dictionary.voice.play}
           pauseLabel={dictionary.voice.pause}

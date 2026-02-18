@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import { InteractiveProse } from '@/components/interactive-prose';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export type TimelineItem = {
@@ -10,34 +11,58 @@ export type TimelineItem = {
   tags?: string[];
 };
 
-export function Timeline({ items, remoteLabel = 'Remote' }: { items: TimelineItem[]; remoteLabel?: string }) {
+export function Timeline({
+  items,
+  remoteLabel = 'Remote',
+  sequenceKey,
+  startStep = 1
+}: {
+  items: TimelineItem[];
+  remoteLabel?: string;
+  sequenceKey?: string;
+  startStep?: number;
+}) {
+  const tagStyle = (cardIndex: number, tagIndex: number) =>
+    ({
+      '--tag-hue': `${(cardIndex * 53 + tagIndex * 31) % 360}`
+    }) as React.CSSProperties;
+
   return (
-    <ol className="relative ml-3 border-l border-border pl-8">
-      {items.map((item) => (
-        <li key={`${item.title}-${item.period}`} className="mb-8">
-          <span className="absolute -left-1.5 mt-6 h-3 w-3 rounded-full bg-primary" />
-          <Card>
-            <CardHeader>
-              <p className="text-sm text-muted-foreground">{item.period}</p>
-              <CardTitle className="text-lg">{item.title}</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                {item.company ? `${item.company} • ` : ''}
-                {item.location ?? remoteLabel}
-              </p>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
-              {item.tags?.length ? (
-                <div className="flex flex-wrap gap-2">
-                  {item.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              ) : null}
-            </CardContent>
-          </Card>
+    <ol className="relative border-l border-border pl-5 sm:ml-3 sm:pl-8">
+      {items.map((item, index) => (
+        <li key={`${item.title}-${item.period}`} className="relative mb-6 sm:mb-8">
+          <span className="absolute -left-[1.45rem] top-6 h-3 w-3 rounded-full bg-primary sm:-left-[2.15rem]" />
+          <InteractiveProse
+            className="vision-prose"
+            wordDelayMs={120}
+            sequenceKey={sequenceKey}
+            step={startStep + index}
+            hideUntilStart
+          >
+            <Card>
+              <CardHeader>
+                <p className="text-sm text-muted-foreground">{item.period}</p>
+                <CardTitle className="timeline-role-title text-lg">{item.title}</CardTitle>
+                <p className="timeline-meta text-sm text-muted-foreground">
+                  {item.company ? `${item.company} • ` : ''}
+                  {item.location ?? remoteLabel}
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
+                {item.tags?.length ? (
+                  <div className="flex flex-wrap gap-2">
+                    {item.tags.map((tag, tagIndex) => (
+                      <Badge key={tag} variant="secondary" className="timeline-tech-pill" style={tagStyle(index, tagIndex)}>
+                        <span className="timeline-tech-dot" aria-hidden="true" />
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
+              </CardContent>
+            </Card>
+          </InteractiveProse>
         </li>
       ))}
     </ol>
