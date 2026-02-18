@@ -10,6 +10,7 @@ const socialLabels: Record<string, string> = {
   youtube: 'YouTube',
   spotify: 'Spotify',
   instagram: 'Instagram',
+  tiktok: 'TikTok',
   x: 'X'
 };
 
@@ -25,6 +26,7 @@ const socialToneClass: Record<string, string> = {
   youtube: 'social-tone-youtube',
   spotify: 'social-tone-spotify',
   instagram: 'social-tone-instagram',
+  tiktok: 'social-tone-tiktok',
   x: 'social-tone-x'
 };
 

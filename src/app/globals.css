@@ -228,35 +228,81 @@ body {
 }
 
 .typed-word {
+  display: inline-block;
   opacity: 0;
-  filter: blur(1.6px);
-  transition: opacity 190ms ease, filter 190ms ease;
+  transform: translate3d(0.38rem, 0, 0);
+  filter: blur(1.2px);
+  transition:
+    opacity 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .typed-word.is-visible {
   opacity: 1;
+  transform: translate3d(0, 0, 0);
   filter: blur(0px);
 }
 
-.typing-active {
+.paint-text {
+  text-wrap: inherit;
+}
+
+.paint-word {
   position: relative;
-}
-
-.typing-active::after {
-  content: '';
   display: inline-block;
-  width: 0.08em;
-  height: 1em;
-  margin-left: 0.18em;
-  vertical-align: -0.12em;
-  background: hsl(var(--primary) / 0.75);
-  animation: typing-caret 0.7s steps(1) infinite;
+  vertical-align: baseline;
 }
 
-@keyframes typing-caret {
-  50% {
-    opacity: 0;
-  }
+.paint-word-base {
+  opacity: 0.22;
+  color: hsl(var(--foreground) / 0.55);
+}
+
+.paint-word-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    hsl(var(--foreground) / 0.88) 0%,
+    hsl(var(--primary) / 0.94) 48%,
+    hsl(var(--accent-foreground) / 0.84) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  clip-path: inset(0 100% 0 0);
+  filter: blur(1.8px);
+  opacity: 0;
+  transition:
+    clip-path var(--paint-duration, 520ms) cubic-bezier(0.22, 1, 0.36, 1) var(--paint-delay, 0ms),
+    opacity 220ms ease var(--paint-delay, 0ms),
+    filter var(--paint-duration, 520ms) cubic-bezier(0.22, 1, 0.36, 1) var(--paint-delay, 0ms);
+  text-shadow: 0 10px 22px hsl(var(--primary) / 0.2);
+}
+
+.paint-word-sheen {
+  position: absolute;
+  inset: -14% -4%;
+  background: linear-gradient(100deg, transparent 28%, hsl(var(--primary) / 0.38) 48%, transparent 72%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translateX(-120%);
+  transition:
+    transform var(--paint-duration, 520ms) cubic-bezier(0.16, 1, 0.3, 1) calc(var(--paint-delay, 0ms) + 30ms),
+    opacity 220ms ease calc(var(--paint-delay, 0ms) + 10ms);
+}
+
+.paint-word.is-visible .paint-word-fill {
+  clip-path: inset(0 0 0 0);
+  filter: blur(0);
+  opacity: 1;
+}
+
+.paint-word.is-visible .paint-word-sheen {
+  transform: translateX(120%);
+  opacity: 0.88;
 }
 
 .footer-social-link {
@@ -302,6 +348,10 @@ body {
 
 .social-tone-instagram {
   --social-hue: 325;
+}
+
+.social-tone-tiktok {
+  --social-hue: 186;
 }
 
 .social-tone-x {

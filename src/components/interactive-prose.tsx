@@ -54,6 +54,16 @@ export function InteractiveProse({
   }, []);
 
   useEffect(() => {
+    if (sequenceKey && step === 1) {
+      const state = window.__typingSequenceProgress ?? {};
+      if (state[sequenceKey] === undefined) {
+        state[sequenceKey] = 0;
+      }
+      window.__typingSequenceProgress = state;
+    }
+  }, [sequenceKey, step]);
+
+  useEffect(() => {
     if (!sequenceKey || step <= 1) {
       setIsStepReady(true);
       return;
@@ -81,6 +91,15 @@ export function InteractiveProse({
     const root = rootRef.current;
     if (!root) return;
     if (!isInView || !isStepReady) return;
+
+    if (sequenceKey) {
+      const progress = window.__typingSequenceProgress?.[sequenceKey] ?? 0;
+      if (progress >= step) {
+        animatedRef.current = true;
+        setHasStarted(true);
+        return;
+      }
+    }
 
     const animateWords = () => {
       if (animatedRef.current) return;
@@ -131,8 +150,6 @@ export function InteractiveProse({
         node.parentNode?.replaceChild(fragment, node);
       });
 
-      root.classList.add('typing-active');
-
       let i = 0;
       const timer = window.setInterval(() => {
         const next = words[i];
@@ -143,7 +160,6 @@ export function InteractiveProse({
         }
 
         window.clearInterval(timer);
-        root.classList.remove('typing-active');
 
         if (sequenceKey) {
           const state = window.__typingSequenceProgress ?? {};

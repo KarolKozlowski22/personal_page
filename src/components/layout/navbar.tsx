@@ -31,7 +31,7 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/65 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/65 backdrop-blur-md">
       <div className="container flex h-14 items-center justify-between gap-2 sm:h-16 sm:gap-3">
         <Link
           href="/"
@@ -82,7 +82,7 @@ export function Navbar() {
                 <Menu className="h-4 w-4" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="!w-[88vw] !max-w-[370px] border-l border-border/70 bg-card/95">
+            <SheetContent side="right" className="!w-[88vw] !max-w-[370px] border-l border-border/70 bg-card/95 pt-12">
               <SheetHeader className="space-y-4">
                 <p className="rounded-lg border border-border/60 bg-background/70 px-3 py-2 text-sm font-medium tracking-wide">
                   <span className="bg-[linear-gradient(95deg,#1434CB_0%,#1A46E8_52%,#F7B600_100%)] bg-clip-text text-transparent">
@@ -91,11 +91,11 @@ export function Navbar() {
                 </p>
                 <div className="grid gap-3 rounded-xl border border-border/60 bg-background/70 p-3">
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-xs uppercase tracking-wide text-muted-foreground">Language</span>
+                    <span className="text-xs uppercase tracking-wide text-muted-foreground">{dictionary.controls.language}</span>
                     <LanguageToggle />
                   </div>
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-xs uppercase tracking-wide text-muted-foreground">Theme</span>
+                    <span className="text-xs uppercase tracking-wide text-muted-foreground">{dictionary.controls.theme}</span>
                     <ThemeToggle />
                   </div>
                 </div>

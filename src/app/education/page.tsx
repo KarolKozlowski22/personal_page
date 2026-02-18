@@ -22,7 +22,7 @@ export default async function EducationPage() {
       <div className="mb-8 max-w-2xl space-y-2">
         <InteractiveProse
           className="vision-prose experience-prose font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl"
-          wordDelayMs={150}
+          wordDelayMs={180}
           sequenceKey="education-flow"
           step={1}
         >

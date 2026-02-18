@@ -25,6 +25,13 @@ const dictionaries = {
       pl: 'PL',
       en: 'EN'
     },
+    controls: {
+      language: 'Język',
+      theme: 'Motyw',
+      light: 'Jasny',
+      dark: 'Ciemny',
+      system: 'System'
+    },
     home: {
       title:
         'Buduję nowoczesne systemy IT: od Linux i bezpieczeństwa po CI/CD, Kubernetes i automatyzację.',
@@ -124,6 +131,13 @@ const dictionaries = {
     language: {
       pl: 'PL',
       en: 'EN'
+    },
+    controls: {
+      language: 'Language',
+      theme: 'Theme',
+      light: 'Light',
+      dark: 'Dark',
+      system: 'System'
     },
     home: {
       title:

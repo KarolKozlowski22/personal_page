@@ -13,6 +13,17 @@ export function SpotifyIcon({ className }: { className?: string }) {
   );
 }
 
+export function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={cn('h-4 w-4', className)}>
+      <path
+        fill="currentColor"
+        d="M15.88 3c.24 1.9 1.36 3.26 3.12 3.9v2.5a6.13 6.13 0 0 1-3.1-1v5.7c0 3.57-2.6 6.1-6.05 6.1A5.97 5.97 0 0 1 3.8 14.2a5.98 5.98 0 0 1 6.05-5.98c.32 0 .63.02.93.08v2.86a3.1 3.1 0 0 0-.93-.15 3.13 3.13 0 0 0-3.16 3.19 3.12 3.12 0 0 0 3.16 3.18c1.83 0 3.14-1.34 3.14-3.26V3h2.9Z"
+      />
+    </svg>
+  );
+}
+
 export function SocialIcon({
   name,
   className
@@ -33,6 +44,8 @@ export function SocialIcon({
       return <SpotifyIcon className={iconClassName} />;
     case 'instagram':
       return <Instagram className={iconClassName} aria-hidden="true" />;
+    case 'tiktok':
+      return <TikTokIcon className={iconClassName} />;
     default:
       return null;
   }

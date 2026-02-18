@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { getDictionary } from '@/lib/i18n';
 import type { Locale } from '@/lib/i18n';
@@ -20,6 +21,7 @@ export function LanguageProvider({
   children: React.ReactNode;
   initialLocale: Locale;
 }) {
+  const router = useRouter();
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
 
   const setLocale = (nextLocale: Locale) => {
@@ -27,7 +29,7 @@ export function LanguageProvider({
     document.cookie = `site_locale=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
     localStorage.setItem('site_locale', nextLocale);
     setLocaleState(nextLocale);
-    window.location.reload();
+    router.refresh();
   };
 
   const dictionary = useMemo(() => getDictionary(locale), [locale]);

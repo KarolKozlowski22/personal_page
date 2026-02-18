@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Github, Linkedin, Mail, Youtube } from 'lucide-react';
+import type { ComponentType } from 'react';
+import { Instagram, Linkedin, Mail } from 'lucide-react';
 
 import { InteractiveProse } from '@/components/interactive-prose';
 import { PageContainer } from '@/components/layout/page-container';
+import { SocialIcon } from '@/components/ui/brand-icons';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { siteConfig } from '@/config/site';
 import { getDictionary } from '@/lib/i18n';
@@ -14,22 +16,29 @@ export const metadata = {
   title: 'Contact'
 };
 
+type ContactLink = {
+  label: string;
+  href: string;
+  icon?: ComponentType<{ className?: string }>;
+  socialIconName?: string;
+};
+
 export default function ContactPage() {
   const locale = getServerLocale();
   const dictionary = getDictionary(locale);
 
-  const links = [
+  const links: ContactLink[] = [
     { label: dictionary.contact.email, href: `mailto:${siteConfig.email}`, icon: Mail },
-    { label: 'GitHub', href: siteConfig.social.github, icon: Github },
+    { label: 'TikTok', href: siteConfig.social.tiktok, socialIconName: 'tiktok' },
     { label: 'LinkedIn', href: siteConfig.social.linkedin, icon: Linkedin },
-    { label: 'YouTube', href: siteConfig.social.youtube, icon: Youtube }
+    { label: 'Instagram', href: siteConfig.social.instagram, icon: Instagram }
   ];
 
   const toneClassByLabel: Record<string, string> = {
     [dictionary.contact.email]: 'social-tone-mail',
-    GitHub: 'social-tone-github',
+    TikTok: 'social-tone-tiktok',
     LinkedIn: 'social-tone-linkedin',
-    YouTube: 'social-tone-youtube'
+    Instagram: 'social-tone-instagram'
   };
 
   return (
@@ -37,7 +46,7 @@ export default function ContactPage() {
       <div className="mb-8 max-w-2xl space-y-2">
         <InteractiveProse
           className="vision-prose experience-prose font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl"
-          wordDelayMs={150}
+          wordDelayMs={180}
         >
           <h1>{dictionary.contact.title}</h1>
         </InteractiveProse>
@@ -51,14 +60,14 @@ export default function ContactPage() {
               alt=""
               fill
               aria-hidden="true"
-              className="object-cover blur-xl scale-110 opacity-35"
+              className="object-cover blur-md scale-105 opacity-28"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/35" />
             <Image
               src={siteConfig.contactShowcase.imageSrc}
               alt={siteConfig.contactShowcase.imageAlt}
               fill
-              className="object-contain p-4 md:p-6"
+              className="object-contain object-center p-4 md:p-6"
             />
           </div>
         </Card>
@@ -84,7 +93,14 @@ export default function ContactPage() {
                   )}
                 >
                   <span className="inline-flex items-center gap-2">
-                    <Icon className="footer-social-icon h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110" />
+                    {item.socialIconName ? (
+                      <SocialIcon
+                        name={item.socialIconName}
+                        className="footer-social-icon h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110"
+                      />
+                    ) : Icon ? (
+                      <Icon className="footer-social-icon h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110" />
+                    ) : null}
                     {item.label}
                   </span>
                   <span className="rounded-full border border-border/65 bg-background/65 px-2.5 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">

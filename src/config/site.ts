@@ -9,12 +9,14 @@ export const siteConfig = {
   location: 'Poland',
   podcastRssUrl:
     process.env.PODCAST_RSS_URL ?? 'https://feeds.simplecast.com/54nAGcIl',
+  youtubeChannelId: process.env.YOUTUBE_CHANNEL_ID ?? '',
   social: {
     github: 'https://github.com/KarolKozlowski22',
     linkedin: 'https://www.linkedin.com/in/karol-koz%C5%82owski-54ab6823a/',
     youtube: 'https://www.youtube.com/@RozmowyzKoz%C5%82em',
     spotify: 'https://open.spotify.com/show/3hpVmQuOU2Q0gZXUYgJFuM?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnkG8UG9fKY2R1H92_F8-skGyO9qsbl7UhD6dwTpUEx6nCdNGYUgsItroPjN0_aem_LFwt1H0s2CYJG_9GH_KPpg',
-    instagram: 'https://www.instagram.com/rozmowyzkozlem'
+    instagram: 'https://www.instagram.com/rozmowyzkozlem',
+    tiktok: 'https://www.tiktok.com/@rozmowyzkozlem'
   },
   email: 'kozlowskikarol02@gmail.com',
   voiceIntro: {

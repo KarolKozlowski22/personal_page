@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { ArrowUpRight, BriefcaseBusiness, GraduationCap, MicVocal } from 'lucide-react';
 
+import { InteractiveProse } from '@/components/interactive-prose';
 import { MotionReveal } from '@/components/motion-reveal';
 import { VoiceIntro, TranscriptLine } from '@/components/home/voice-intro';
-import { InteractiveProse } from '@/components/interactive-prose';
 import { PageContainer } from '@/components/layout/page-container';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -48,7 +48,7 @@ export default async function HomePage() {
           </Badge>
           <InteractiveProse
             className="vision-prose font-display text-balance max-w-4xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl"
-            wordDelayMs={150}
+            wordDelayMs={175}
             sequenceKey="home-hero"
             step={1}
           >
@@ -56,7 +56,7 @@ export default async function HomePage() {
           </InteractiveProse>
           <InteractiveProse
             className="vision-prose text-balance max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
-            wordDelayMs={140}
+            wordDelayMs={165}
             sequenceKey="home-hero"
             step={2}
             hideUntilStart

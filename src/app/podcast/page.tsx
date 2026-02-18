@@ -10,6 +10,7 @@ import { siteConfig } from '@/config/site';
 import { getJsonContent, getMdxContent, localizedMdxFile } from '@/lib/content';
 import { getDictionary } from '@/lib/i18n';
 import { getServerLocale } from '@/lib/i18n-server';
+import { getYouTubeUploadsSafe, type YouTubeVideo } from '@/lib/youtube';
 import { cn } from '@/lib/utils';
 
 export const metadata = {
@@ -20,6 +21,9 @@ type PodcastFrontmatter = {
   platforms?: { label: string; url: string }[];
   featuredEpisodes?: { title: string; url: string; description?: string }[];
 };
+
+type PodcastEpisode = { title: string; url: string };
+type PodcastShort = { title?: string; url: string };
 
 type ShortsData = {
   title?: string;
@@ -32,6 +36,7 @@ const socialToneClass: Record<string, string> = {
   youtube: 'social-tone-youtube',
   spotify: 'social-tone-spotify',
   instagram: 'social-tone-instagram',
+  tiktok: 'social-tone-tiktok',
   x: 'social-tone-x'
 };
 
@@ -56,17 +61,37 @@ export default async function PodcastPage() {
   const locale = getServerLocale();
   const dictionary = getDictionary(locale);
 
-  const [{ content, frontmatter }, shorts] = await Promise.all([
+  const [{ content, frontmatter }, shortsFallback, liveYoutube] = await Promise.all([
     getMdxContent<PodcastFrontmatter>(localizedMdxFile('podcast', locale)),
-    getJsonContent<ShortsData>('shorts.json')
+    getJsonContent<ShortsData>('shorts.json'),
+    getYouTubeUploadsSafe()
   ]);
+
+  const featuredEpisodes: PodcastEpisode[] =
+    liveYoutube.liveAvailable
+      ? liveYoutube.featured.map((video: YouTubeVideo) => ({
+          title: video.title,
+          url: video.url
+        }))
+      : (frontmatter.featuredEpisodes ?? []).map((episode) => ({
+          title: episode.title,
+          url: episode.url
+        }));
+
+  const shorts: PodcastShort[] =
+    liveYoutube.liveAvailable
+      ? liveYoutube.shorts.map((video: YouTubeVideo) => ({
+          title: video.title,
+          url: video.url
+        }))
+      : shortsFallback;
 
   return (
     <PageContainer className="space-y-12">
       <div className="mb-8 max-w-2xl space-y-2">
         <InteractiveProse
           className="vision-prose experience-prose font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl"
-          wordDelayMs={150}
+          wordDelayMs={180}
           sequenceKey="podcast-flow"
           step={1}
         >
@@ -83,7 +108,7 @@ export default async function PodcastPage() {
                 alt=""
                 fill
                 aria-hidden="true"
-                className="object-cover blur-xl scale-110 opacity-30"
+                className="object-cover blur-md scale-105 opacity-26"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/35" />
               <Image
@@ -96,9 +121,6 @@ export default async function PodcastPage() {
             <div className="flex flex-col justify-center gap-4 p-6 md:p-8">
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Host</p>
               <h2 className="font-display text-2xl font-semibold tracking-tight">{siteConfig.author}</h2>
-              <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                {dictionary.podcast.description}
-              </p>
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3 py-1.5 text-xs text-muted-foreground">
                   <MicVocal className="h-3.5 w-3.5 text-primary" />
@@ -131,11 +153,11 @@ export default async function PodcastPage() {
         </CardContent>
       </Card>
 
-      {frontmatter.featuredEpisodes?.length ? (
+      {featuredEpisodes.length ? (
         <section className="space-y-5">
-          <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.featured}</h2>
+          <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.episodes}</h2>
           <div className="grid gap-4 md:grid-cols-2">
-            {frontmatter.featuredEpisodes.map((episode) => (
+            {featuredEpisodes.map((episode: PodcastEpisode) => (
               <Card key={episode.url}>
                 <CardHeader>
                   <CardTitle className="text-base">{episode.title}</CardTitle>
@@ -151,9 +173,6 @@ export default async function PodcastPage() {
                       allowFullScreen
                     />
                   </div>
-                  {episode.description ? (
-                    <p className="text-sm text-muted-foreground">{episode.description}</p>
-                  ) : null}
                   <Link
                     href={episode.url}
                     target="_blank"
@@ -174,7 +193,7 @@ export default async function PodcastPage() {
         <section className="space-y-5">
           <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.shorts}</h2>
           <div className="grid gap-4 md:grid-cols-2">
-            {shorts.map((short) => (
+            {shorts.map((short: PodcastShort) => (
               <div key={short.url} className="podcast-video-frame aspect-video overflow-hidden rounded-xl border">
                 <iframe
                   src={toEmbedUrl(short.url)}
