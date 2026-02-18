@@ -52,6 +52,7 @@ body {
 
 body {
   font-family: var(--font-manrope), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  overflow-x: clip;
   background-image:
     radial-gradient(1200px 520px at 0% 0%, hsl(var(--accent) / 0.35), transparent 55%),
     linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background) / 0.98) 100%);
@@ -92,4 +93,289 @@ body {
 
 .prose-custom a {
   @apply text-primary underline underline-offset-4;
+}
+
+.vision-prose h1,
+.vision-prose h2,
+.vision-prose h3 {
+  --hero-gradient: linear-gradient(
+    120deg,
+    hsl(var(--foreground) / 0.86) 0%,
+    hsl(var(--primary) / 0.9) 48%,
+    hsl(var(--accent-foreground) / 0.82) 100%
+  );
+  background: var(--hero-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 26px hsl(var(--primary) / 0.18);
+}
+
+.vision-prose h1 .typed-word,
+.vision-prose h2 .typed-word,
+.vision-prose h3 .typed-word {
+  display: inline-block;
+  background: var(--hero-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.vision-prose p {
+  text-shadow: 0 5px 18px hsl(var(--foreground) / 0.08);
+}
+
+.experience-prose h2,
+.experience-prose h3 {
+  position: relative;
+  display: inline-block;
+  --section-gradient: linear-gradient(
+    105deg,
+    hsl(var(--foreground) / 0.84) 0%,
+    hsl(var(--primary) / 0.9) 42%,
+    hsl(var(--accent-foreground) / 0.82) 100%
+  );
+  background: var(--section-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 9px 24px hsl(var(--primary) / 0.16);
+}
+
+.experience-prose h2::after,
+.experience-prose h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.28rem;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, hsl(var(--primary) / 0.7), hsl(var(--accent-foreground) / 0.45));
+}
+
+.experience-prose h2,
+.experience-prose h3 {
+  line-height: 1.22;
+}
+
+.experience-prose strong {
+  display: inline-block;
+  padding: 0.06rem 0.38rem;
+  border-radius: 0.45rem;
+  background: linear-gradient(
+    120deg,
+    hsl(var(--primary) / 0.2) 0%,
+    hsl(var(--accent) / 0.3) 100%
+  );
+  color: hsl(var(--foreground));
+  box-shadow: inset 0 0 0 1px hsl(var(--primary) / 0.24), 0 8px 18px -12px hsl(var(--primary) / 0.5);
+}
+
+.timeline-role-title {
+  --timeline-title-gradient: linear-gradient(
+    108deg,
+    hsl(var(--foreground) / 0.84) 0%,
+    hsl(var(--primary) / 0.9) 54%,
+    hsl(var(--accent-foreground) / 0.82) 100%
+  );
+  background: var(--timeline-title-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.timeline-meta {
+  letter-spacing: 0.01em;
+}
+
+.timeline-tech-pill {
+  position: relative;
+  border: 1px solid hsl(var(--border) / 0.72) !important;
+  background:
+    linear-gradient(
+      125deg,
+      hsl(var(--background) / 0.92),
+      hsl(var(--secondary) / 0.6)
+    ),
+    radial-gradient(
+      120% 130% at 8% 0%,
+      hsl(var(--tag-hue) 80% 62% / 0.26),
+      transparent 55%
+    );
+  color: hsl(var(--foreground) / 0.9);
+  box-shadow: inset 0 1px 0 hsl(var(--background) / 0.62), 0 10px 18px -14px hsl(var(--tag-hue) 85% 46% / 0.7);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.timeline-tech-pill:hover {
+  transform: translateY(-1px);
+  border-color: hsl(var(--tag-hue) 80% 54% / 0.48) !important;
+  box-shadow: inset 0 1px 0 hsl(var(--background) / 0.7), 0 16px 26px -16px hsl(var(--tag-hue) 90% 44% / 0.6);
+}
+
+.timeline-tech-dot {
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 999px;
+  margin-right: 0.42rem;
+  background: hsl(var(--tag-hue) 84% 54%);
+  box-shadow: 0 0 0 3px hsl(var(--tag-hue) 88% 46% / 0.18), 0 0 18px hsl(var(--tag-hue) 88% 52% / 0.34);
+}
+
+.typed-word {
+  opacity: 0;
+  filter: blur(1.6px);
+  transition: opacity 190ms ease, filter 190ms ease;
+}
+
+.typed-word.is-visible {
+  opacity: 1;
+  filter: blur(0px);
+}
+
+.typing-active {
+  position: relative;
+}
+
+.typing-active::after {
+  content: '';
+  display: inline-block;
+  width: 0.08em;
+  height: 1em;
+  margin-left: 0.18em;
+  vertical-align: -0.12em;
+  background: hsl(var(--primary) / 0.75);
+  animation: typing-caret 0.7s steps(1) infinite;
+}
+
+@keyframes typing-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.footer-social-link {
+  border-color: hsl(var(--border) / 0.65);
+  background:
+    linear-gradient(128deg, hsl(var(--background) / 0.82), hsl(var(--card) / 0.64)),
+    radial-gradient(110% 130% at 10% 0%, hsl(var(--social-hue) 85% 56% / 0.14), transparent 62%);
+}
+
+.footer-social-link:hover {
+  border-color: hsl(var(--social-hue) 85% 50% / 0.45);
+  color: hsl(var(--foreground));
+  box-shadow:
+    inset 0 1px 0 hsl(var(--background) / 0.7),
+    0 14px 24px -18px hsl(var(--social-hue) 90% 48% / 0.72);
+}
+
+.footer-social-link:hover .footer-social-icon {
+  color: hsl(var(--social-hue) 88% 52%);
+  filter: drop-shadow(0 0 9px hsl(var(--social-hue) 88% 50% / 0.42));
+}
+
+.footer-social-icon {
+  color: hsl(var(--social-hue) 72% 56% / 0.72);
+  filter: drop-shadow(0 0 6px hsl(var(--social-hue) 82% 52% / 0.2));
+}
+
+.social-tone-github {
+  --social-hue: 220;
+}
+
+.social-tone-linkedin {
+  --social-hue: 209;
+}
+
+.social-tone-youtube {
+  --social-hue: 2;
+}
+
+.social-tone-spotify {
+  --social-hue: 142;
+}
+
+.social-tone-instagram {
+  --social-hue: 325;
+}
+
+.social-tone-x {
+  --social-hue: 200;
+}
+
+.social-tone-mail {
+  --social-hue: 28;
+}
+
+.podcast-section-title {
+  --podcast-title-gradient: linear-gradient(
+    110deg,
+    hsl(var(--foreground) / 0.86) 0%,
+    hsl(var(--primary) / 0.92) 46%,
+    hsl(var(--accent-foreground) / 0.82) 100%
+  );
+  background: var(--podcast-title-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 8px 20px hsl(var(--primary) / 0.2);
+}
+
+.podcast-video-frame {
+  border-color: hsl(var(--border) / 0.72);
+  background:
+    linear-gradient(132deg, hsl(var(--background) / 0.84), hsl(var(--card) / 0.58)),
+    radial-gradient(130% 120% at 8% 0%, hsl(var(--primary) / 0.16), transparent 58%);
+  box-shadow: inset 0 1px 0 hsl(var(--background) / 0.72), 0 16px 28px -22px hsl(var(--primary) / 0.55);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.podcast-video-frame:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--primary) / 0.32);
+  box-shadow: inset 0 1px 0 hsl(var(--background) / 0.8), 0 22px 34px -22px hsl(var(--primary) / 0.65);
+}
+
+.podcast-watch-btn {
+  border: 1px solid hsl(var(--border) / 0.72);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  color: hsl(var(--primary));
+  background:
+    linear-gradient(128deg, hsl(var(--background) / 0.86), hsl(var(--card) / 0.62)),
+    radial-gradient(120% 130% at 8% 0%, hsl(var(--primary) / 0.16), transparent 58%);
+  box-shadow: inset 0 1px 0 hsl(var(--background) / 0.75), 0 12px 24px -20px hsl(var(--primary) / 0.8);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, color 220ms ease;
+}
+
+.podcast-watch-btn:hover {
+  transform: translateY(-1px);
+  border-color: hsl(var(--primary) / 0.38);
+  color: hsl(var(--primary));
+  box-shadow: inset 0 1px 0 hsl(var(--background) / 0.82), 0 16px 28px -18px hsl(var(--primary) / 0.9);
+}
+
+.subtitle-panel {
+  border-color: hsl(var(--border) / 0.72);
+  box-shadow: inset 0 1px 0 hsl(var(--background) / 0.72);
+}
+
+.subtitle-text {
+  font-family: var(--font-sora), "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.004em;
+}
+
+.subtitle-word {
+  transition: color 180ms ease, text-shadow 180ms ease, opacity 180ms ease;
+}
+
+.subtitle-word-active {
+  color: hsl(var(--primary));
+  text-shadow: 0 0 14px hsl(var(--primary) / 0.32);
 }

@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: 'Karol Personal Site',
+  name: 'My Personal Website',
   title: 'Karol | Frontend Engineer',
   description:
     'Personal website covering education, current IT career, experience timeline, and podcast episodes.',
