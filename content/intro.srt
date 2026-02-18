@@ -1,0 +1,155 @@
+1
+00:00:00,000 --> 00:00:13,580
+Nazywam się Karol Kozłowski. Urodziłem się 10 maja 2002 roku w Szpitalu Miejskim w Sosnowcu, przy ulicy Emila Zegadłowicza 3, kod pocztowy 41-200.
+
+2
+00:00:14,080 --> 00:00:17,860
+Matka Agnieszka, ojciec Tomasz — pozdrawiam serdecznie.
+
+3
+00:00:17,920 --> 00:00:21,720
+Miasto mojego pochodzenia to miejsce, z którego w Polsce każdy się śmieje.
+
+4
+00:00:22,240 --> 00:00:24,160
+Szczerze mówiąc, nie do końca wiem dlaczego.
+
+5
+00:00:24,860 --> 00:00:28,080
+Jest brzydkie, ale widziałem brzydsze, no i nie mamy rynku.
+
+6
+00:00:28,980 --> 00:00:35,180
+Obecnie mieszkam w Warszawie, czyli w tak zwanym mieście cudów, innowacji i… momentami degeneracji.
+
+7
+00:00:35,820 --> 00:00:37,040
+A tak już całkiem serio —
+
+8
+00:00:37,380 --> 00:00:43,500
+lubię naszą stolicę, bo pokazuje mi, jak bardzo rozwinęło się nasze państwo od czasu transformacji gospodarczej.
+
+9
+00:00:44,180 --> 00:00:47,240
+Niepotrzebne informacje są jak nałóg —
+
+10
+00:00:48,100 --> 00:00:53,720
+nigdy za mało.
+
+11
+00:00:54,440 --> 00:00:59,680
+Zawodowo pracuję jako inżynier DevOps dla jednego z większych fintechów na świecie — Visa Incorporated.
+
+12
+00:01:00,560 --> 00:01:04,300
+Zapamiętaj, drogi widzu: Visa to nie bank ani twórca kart debetowych czy kredytowych,
+
+13
+00:01:04,500 --> 00:01:09,500
+tylko globalny system rozliczania pieniędzy pomiędzy instytucjami finansowymi,
+
+14
+00:01:10,620 --> 00:01:16,220
+czyli taka… bardzo zaawansowana maszynka do przesuwania cyfr z miejsca na miejsce.
+
+15
+00:01:16,220 --> 00:01:20,620
+DevOps brzmi egzotycznie, ale w praktyce chodzi o zapewnianie jednolitej, skalowalnej infrastruktury
+
+16
+00:01:20,620 --> 00:01:26,780
+dla projektów ajti oraz szeroko pojętą automatyzację procesów.
+
+17
+00:01:27,220 --> 00:01:28,700
+Żeby jednak nie zanudzać buzzwordami —
+
+18
+00:01:29,440 --> 00:01:32,340
+zapraszam do sekcji poświęconej mojemu doświadczeniu,
+
+19
+00:01:33,080 --> 00:01:37,000
+gdzie opisuję to nieco szerzej.
+
+20
+00:01:37,680 --> 00:01:40,940
+Co mam wspólnego z Kozłami poza szlachecko brzmiącym nazwiskiem?
+
+21
+00:01:41,480 --> 00:01:43,100
+Ano nagrywam podcast „Rozmowy z Kozłem” —
+
+22
+00:01:43,640 --> 00:01:48,500
+od młodych dla wszystkich.
+
+23
+00:01:48,500 --> 00:01:51,080
+Link znajdziesz na stronie albo w sekcji dedykowanej podcastowi.
+
+24
+00:01:51,700 --> 00:01:58,680
+Prywatnie jestem też inwestorem. W praktyce oznacza to, że część ciężko zarobionych pieniędzy zdążyłem już zarówno stracić, jak i pomnożyć na rynku kryptowalut.
+
+25
+00:01:58,680 --> 00:02:01,040
+A zupełnie poważnie —
+
+26
+00:02:01,600 --> 00:02:06,060
+uważam, że obecny system monetarny i szeroko pojęte uwarunkowania makroekonomiczne mocno dociskają klasę średnią,
+
+27
+00:02:06,700 --> 00:02:09,780
+dlatego inwestowanie bywa jedną z niewielu trampolin do przodu.
+
+28
+00:02:09,780 --> 00:02:12,340
+Pamiętaj jednak, że inwestowanie wiąże się z ryzykiem
+
+29
+00:02:13,000 --> 00:02:20,600
+i absolutnie nie jest to porada inwestycyjna. Mam szczerą nadzieję, że nie będziesz ślepo słuchać jakiegoś losowego warszawskiego słoika z internetu.
+
+30
+00:02:21,440 --> 00:02:23,200
+Edukacyjnie też coś się zadziało —
+
+31
+00:02:23,800 --> 00:02:26,760
+skończyłem informatykę stosowaną na AGH.
+
+32
+00:02:27,320 --> 00:02:30,340
+Obecnie jestem w trakcie studiów magisterskich na Politechnice Warszawskiej,
+
+33
+00:02:31,420 --> 00:02:34,080
+choć na moment wcisnąłem sobie urlop dziekański,
+
+34
+00:02:34,100 --> 00:02:37,980
+żeby trochę… pożyć i nadrobić projekty poza uczelnią.
+
+35
+00:02:37,980 --> 00:02:42,660
+W skrócie: studiuję, ale z dystansem do akademickiego dramatyzmu.
+
+36
+00:02:43,460 --> 00:02:46,780
+Moje motto? „Bądź serdeczny w swoim uznaniu i hojny w pochwałach.”
+
+37
+00:02:47,840 --> 00:02:49,080
+Z jakiej to książki?
+
+38
+00:02:49,320 --> 00:02:50,340
+Dobra, wystarczy —
+
+39
+00:02:50,800 --> 00:02:53,800
+toast za zdrowie i żeby się dobrze klikał content.

@@ -1,0 +1,16 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2D1B12"/>
+      <stop offset="100%" stop-color="#D26C34"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" rx="90" fill="url(#bg)"/>
+  <circle cx="400" cy="310" r="130" fill="#F4D6C2"/>
+  <path d="M260 640C290 520 340 470 400 470C460 470 510 520 540 640" fill="#F4D6C2"/>
+  <path d="M300 285C310 210 355 170 400 170C445 170 490 210 500 285" fill="#2A140B"/>
+  <circle cx="355" cy="310" r="10" fill="#2A140B"/>
+  <circle cx="445" cy="310" r="10" fill="#2A140B"/>
+  <path d="M360 370C378 386 422 386 440 370" stroke="#2A140B" stroke-width="10" stroke-linecap="round"/>
+  <text x="400" y="740" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="44">Karol</text>
+</svg>

@@ -1,0 +1,11 @@
+services:
+  personal-page:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: personal-page:local
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PODCAST_RSS_URL=${PODCAST_RSS_URL:-https://feeds.simplecast.com/54nAGcIl}
