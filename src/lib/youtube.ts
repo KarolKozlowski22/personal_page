@@ -15,9 +15,19 @@ export type YouTubeVideo = {
 };
 
 type YouTubeSearchResponse = {
+  items?: {
+    contentDetails?: {
+      relatedPlaylists?: {
+        uploads?: string;
+      };
+    };
+  }[];
+};
+
+type YouTubePlaylistItemsResponse = {
   nextPageToken?: string;
   items?: {
-    id?: {
+    contentDetails?: {
       videoId?: string;
     };
   }[];
@@ -101,17 +111,6 @@ function parseDurationToSeconds(durationIso?: string) {
   return h * 3600 + m * 60 + s;
 }
 
-function isLikelyShortByText(title: string, description: string, url: string) {
-  const haystack = `${title} ${description} ${url}`.toLowerCase();
-  const hashtagCount = (title.match(/#[\p{L}\p{N}_-]+/gu) ?? []).length;
-  return (
-    haystack.includes('#short') ||
-    haystack.includes('/shorts/') ||
-    /\bshorts?\b/.test(haystack) ||
-    hashtagCount >= 3
-  );
-}
-
 function extractEpisodeKey(title: string, description: string) {
   const haystack = `${title} ${description}`;
   const match = haystack.match(/(?:#|odcinek\s*|episode\s*)(\d{1,3})/i);
@@ -160,37 +159,54 @@ function chunkArray<T>(array: T[], chunkSize: number) {
 }
 
 async function fetchYouTubeUploadsWithApi(channelId: string, apiKey: string) {
+  const channelParams = new URLSearchParams({
+    part: 'contentDetails',
+    id: channelId,
+    key: apiKey
+  });
+
+  const channelRes = await fetch(
+    `https://www.googleapis.com/youtube/v3/channels?${channelParams.toString()}`,
+    { next: { revalidate: YOUTUBE_REVALIDATE_SECONDS } }
+  );
+  if (!channelRes.ok) {
+    throw new Error(`YouTube channels API failed: ${channelRes.status}`);
+  }
+
+  const channelJson = (await channelRes.json()) as YouTubeSearchResponse;
+  const uploadsPlaylistId =
+    channelJson.items?.[0]?.contentDetails?.relatedPlaylists?.uploads ?? '';
+  if (!uploadsPlaylistId) return [] as YouTubeVideo[];
+
   const ids: string[] = [];
   let nextPageToken = '';
   let page = 0;
 
-  // Collect recent uploads up to a safe page cap for better latency.
+  // Collect recent uploads from the channel uploads playlist (most stable source).
   while (page < SAFE_MAX_PAGES) {
-    const searchParams = new URLSearchParams({
-      part: 'snippet',
-      channelId,
+    const playlistParams = new URLSearchParams({
+      part: 'contentDetails',
+      playlistId: uploadsPlaylistId,
       maxResults: '50',
-      order: 'date',
-      type: 'video',
       key: apiKey
     });
-    if (nextPageToken) searchParams.set('pageToken', nextPageToken);
+    if (nextPageToken) playlistParams.set('pageToken', nextPageToken);
 
-    const searchRes = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?${searchParams.toString()}`,
+    const playlistRes = await fetch(
+      `https://www.googleapis.com/youtube/v3/playlistItems?${playlistParams.toString()}`,
       { next: { revalidate: YOUTUBE_REVALIDATE_SECONDS } }
     );
-    if (!searchRes.ok) {
-      throw new Error(`YouTube search API failed: ${searchRes.status}`);
+    if (!playlistRes.ok) {
+      throw new Error(`YouTube playlistItems API failed: ${playlistRes.status}`);
     }
 
-    const searchJson = (await searchRes.json()) as YouTubeSearchResponse;
-    const pageIds = (searchJson.items ?? [])
-      .map((item) => item.id?.videoId)
+    const playlistJson = (await playlistRes.json()) as YouTubePlaylistItemsResponse;
+    const pageIds = (playlistJson.items ?? [])
+      .map((item) => item.contentDetails?.videoId)
       .filter((id: string | undefined): id is string => Boolean(id));
 
     ids.push(...pageIds);
-    nextPageToken = searchJson.nextPageToken ?? '';
+    nextPageToken = playlistJson.nextPageToken ?? '';
     page += 1;
     if (!nextPageToken) break;
   }
@@ -225,8 +241,8 @@ async function fetchYouTubeUploadsWithApi(channelId: string, apiKey: string) {
       const viewCount = Number(item.statistics?.viewCount ?? 0);
       const seconds = parseDurationToSeconds(item.contentDetails?.duration);
       const url = id ? `https://www.youtube.com/watch?v=${id}` : '';
-      const isShortByDuration = seconds > 0 && seconds <= 180;
-      const isShort = isShortByDuration || isLikelyShortByText(title, description, url);
+      // For API data, duration is the most reliable way to separate shorts from full episodes.
+      const isShort = seconds > 0 && seconds <= 180;
 
       return {
         title,
@@ -388,10 +404,9 @@ export async function getYouTubeUploadsSafe(): Promise<YouTubeUploadsResult> {
       : await fetchYouTubeUploadsCached(channelId);
 
     const featured = uploads.filter((item: YouTubeVideo) => {
-      if (item.isShort) return false;
+      if (item.url.includes('/shorts/')) return false;
       const duration = item.durationSeconds ?? 0;
-      if (isLikelyShortByText(item.title, item.description ?? '', item.url)) return false;
-      // Keep full episodes only, never short-form clips in this section.
+      // Always include full episodes.
       return duration === 0 || duration > 180;
     });
     const shorts = apiKey

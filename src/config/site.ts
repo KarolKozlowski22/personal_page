@@ -1,10 +1,29 @@
 export const siteConfig = {
   name: 'My Personal Website',
-  title: 'Karol | Frontend Engineer',
+  title: 'Karol Kozłowski | Mid DevOps Engineer',
   description:
-    'Personal website covering education, current IT career, experience timeline, and podcast episodes.',
+    'Mid DevOps Engineer portfolio covering Linux, security, CI/CD, Kubernetes, automation, career timeline, education, and podcast content.',
+  seoKeywords: [
+    'Karol Kozłowski',
+    'DevOps Engineer',
+    'Mid DevOps Engineer',
+    'Platform Engineering',
+    'Kubernetes',
+    'Linux',
+    'CI/CD',
+    'DevSecOps',
+    'Docker',
+    'Infrastructure as Code',
+    'Automation',
+    'Cloud',
+    'Monitoring',
+    'GitHub Actions',
+    'Jenkins',
+    'SRE',
+    'Poland DevOps'
+  ],
   url: 'https://example.com',
-  author: 'Karol Kozlowski',
+  author: 'Karol Kozłowski',
   role: 'DevOps Engineer @ Visa',
   location: 'Poland',
   podcastRssUrl:

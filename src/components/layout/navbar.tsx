@@ -37,10 +37,10 @@ export function Navbar() {
           href="/"
           className="group relative min-w-0 rounded-full border border-transparent px-2 py-1.5 font-display text-sm font-semibold tracking-tight transition-colors hover:border-border/70 hover:bg-card/45 sm:px-3 sm:text-base"
         >
-          <span className="absolute inset-x-3 bottom-0 h-px bg-gradient-to-r from-[#1434CB]/0 via-[#1A46E8]/70 to-[#F7B600]/0 opacity-0 transition-opacity group-hover:opacity-100" />
+          <span className="absolute inset-x-3 bottom-0 h-px bg-gradient-to-r from-[#1434CB]/0 via-[#3B82F6]/80 to-[#F7B600]/0 opacity-0 transition-opacity group-hover:opacity-100" />
           <span className="truncate">{siteConfig.author}</span>
           <span className="ml-2 hidden rounded-full border border-border/60 bg-background/80 px-2 py-0.5 text-[11px] font-medium tracking-wide sm:inline-flex">
-            <span className="bg-[linear-gradient(95deg,#1434CB_0%,#1A46E8_52%,#F7B600_100%)] bg-clip-text text-transparent">
+            <span className="bg-[linear-gradient(95deg,#1E40AF_0%,#3B82F6_58%,#F7B600_100%)] bg-clip-text text-transparent">
               {siteConfig.role}
             </span>
           </span>
@@ -54,14 +54,15 @@ export function Navbar() {
             <Link
               key={item.href}
               href={item.href}
+              data-active={pathname === item.href}
               className={cn(
-                'relative rounded-full px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/70 hover:text-accent-foreground',
+                'nav-gradient-link group relative rounded-full px-3 py-2 text-sm transition-all duration-200 hover:bg-accent/70',
                 pathname === item.href
-                  ? 'bg-secondary text-secondary-foreground shadow-sm after:absolute after:bottom-1 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-[#1A46E8]'
+                  ? 'bg-secondary text-secondary-foreground shadow-sm after:absolute after:bottom-1 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-[#3B82F6] after:shadow-[0_0_10px_rgba(59,130,246,0.65)]'
                   : 'text-muted-foreground'
               )}
             >
-              {item.label}
+              <span className="nav-gradient-text">{item.label}</span>
             </Link>
           ))}
         </nav>
@@ -85,7 +86,7 @@ export function Navbar() {
             <SheetContent side="right" className="!w-[88vw] !max-w-[370px] border-l border-border/70 bg-card/95 pt-12">
               <SheetHeader className="space-y-4">
                 <p className="rounded-lg border border-border/60 bg-background/70 px-3 py-2 text-sm font-medium tracking-wide">
-                  <span className="bg-[linear-gradient(95deg,#1434CB_0%,#1A46E8_52%,#F7B600_100%)] bg-clip-text text-transparent">
+                  <span className="bg-[linear-gradient(95deg,#1E40AF_0%,#3B82F6_58%,#F7B600_100%)] bg-clip-text text-transparent">
                     {siteConfig.role}
                   </span>
                 </p>
@@ -105,14 +106,15 @@ export function Navbar() {
                   <SheetClose asChild key={item.href}>
                     <Link
                       href={item.href}
+                      data-active={pathname === item.href}
                       className={cn(
-                        'rounded-lg border px-3 py-2.5 text-sm transition-colors',
+                        'nav-gradient-link group rounded-lg border px-3 py-2.5 text-sm transition-colors',
                         pathname === item.href
                           ? 'border-primary/35 bg-secondary text-secondary-foreground'
                           : 'border-transparent text-muted-foreground hover:border-border/70 hover:bg-accent hover:text-accent-foreground'
                       )}
                     >
-                      {item.label}
+                      <span className="nav-gradient-text">{item.label}</span>
                     </Link>
                   </SheetClose>
                 ))}

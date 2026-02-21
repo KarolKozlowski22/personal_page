@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AudioLines, ExternalLink, MicVocal, Radio } from 'lucide-react';
 
-import { InteractiveProse } from '@/components/interactive-prose';
+import { MotionReveal } from '@/components/motion-reveal';
 import { PageContainer } from '@/components/layout/page-container';
 import { SocialIcon } from '@/components/ui/brand-icons';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -88,18 +88,13 @@ export default async function PodcastPage() {
 
   return (
     <PageContainer className="space-y-12">
-      <div className="mb-8 max-w-2xl space-y-2">
-        <InteractiveProse
-          className="vision-prose experience-prose font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl"
-          wordDelayMs={180}
-          sequenceKey="podcast-flow"
-          step={1}
-        >
+      <MotionReveal revealKey="podcast-title">
+        <div className="vision-prose experience-prose mb-8 max-w-2xl space-y-2 font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl">
           <h1>{dictionary.podcast.title}</h1>
-        </InteractiveProse>
-      </div>
+        </div>
+      </MotionReveal>
 
-      <InteractiveProse sequenceKey="podcast-flow" step={2} hideUntilStart typing={false}>
+      <MotionReveal delay={0.08} revealKey="podcast-hero">
         <Card className="overflow-hidden">
           <div className="grid items-stretch md:grid-cols-[280px_1fr]">
             <div className="relative min-h-[260px]">
@@ -138,101 +133,100 @@ export default async function PodcastPage() {
             </div>
           </div>
         </Card>
-      </InteractiveProse>
+      </MotionReveal>
 
-      <Card>
-        <CardContent className="pt-6">
-          <InteractiveProse
-            className="prose-custom vision-prose experience-prose"
-            sequenceKey="podcast-flow"
-            step={3}
-            hideUntilStart
-          >
-            {content}
-          </InteractiveProse>
-        </CardContent>
-      </Card>
+      <MotionReveal delay={0.14} revealKey="podcast-content">
+        <Card>
+          <CardContent className="prose-custom vision-prose experience-prose pt-6">{content}</CardContent>
+        </Card>
+      </MotionReveal>
 
       {featuredEpisodes.length ? (
-        <section className="space-y-5">
-          <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.episodes}</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {featuredEpisodes.map((episode: PodcastEpisode) => (
-              <Card key={episode.url}>
-                <CardHeader>
-                  <CardTitle className="text-base">{episode.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="podcast-video-frame aspect-video overflow-hidden rounded-md border">
-                    <iframe
-                      src={toEmbedUrl(episode.url)}
-                      title={episode.title}
-                      className="h-full w-full"
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                  <Link
-                    href={episode.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="podcast-watch-btn inline-flex items-center gap-2 text-sm font-medium"
-                  >
-                    {dictionary.podcast.watchOnYoutube}
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
+        <MotionReveal delay={0.2} revealKey="podcast-episodes">
+          <section className="space-y-5">
+            <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.episodes}</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {featuredEpisodes.map((episode: PodcastEpisode) => (
+                <Card key={episode.url}>
+                  <CardHeader>
+                    <CardTitle className="text-base">{episode.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="podcast-video-frame aspect-video overflow-hidden rounded-md border">
+                      <iframe
+                        src={toEmbedUrl(episode.url)}
+                        title={episode.title}
+                        className="h-full w-full"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <Link
+                      href={episode.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="podcast-watch-btn inline-flex items-center gap-2 text-sm font-medium"
+                    >
+                      {dictionary.podcast.watchOnYoutube}
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        </MotionReveal>
       ) : null}
 
       {shorts.length ? (
-        <section className="space-y-5">
-          <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.shorts}</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {shorts.map((short: PodcastShort) => (
-              <div key={short.url} className="podcast-video-frame aspect-video overflow-hidden rounded-xl border">
-                <iframe
-                  src={toEmbedUrl(short.url)}
-                  title={short.title ?? 'YouTube Short'}
-                  className="h-full w-full"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
+        <MotionReveal delay={0.26} revealKey="podcast-shorts">
+          <section className="space-y-5">
+            <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.shorts}</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {shorts.map((short: PodcastShort) => (
+                <div key={short.url} className="podcast-video-frame aspect-video overflow-hidden rounded-xl border">
+                  <iframe
+                    src={toEmbedUrl(short.url)}
+                    title={short.title ?? 'YouTube Short'}
+                    className="h-full w-full"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        </MotionReveal>
+      ) : null}
+
+      <MotionReveal delay={0.32} revealKey="podcast-platforms">
+        <section className="space-y-4">
+          <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.platforms}</h2>
+          <div className="flex flex-wrap gap-3">
+            {(frontmatter.platforms ?? []).map((platform) => (
+              <Link
+                key={platform.label}
+                href={platform.url}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  'footer-social-link group inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all duration-200',
+                  socialToneClass[platform.label.toLowerCase()] ?? 'social-tone-github'
+                )}
+              >
+                <SocialIcon
+                  name={platform.label.toLowerCase()}
+                  className="footer-social-icon transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110"
                 />
-              </div>
+                {platform.label}
+                <ExternalLink className="h-3.5 w-3.5" />
+              </Link>
             ))}
           </div>
         </section>
-      ) : null}
-
-      <section className="space-y-4">
-        <h2 className="podcast-section-title text-2xl font-semibold">{dictionary.podcast.platforms}</h2>
-        <div className="flex flex-wrap gap-3">
-          {(frontmatter.platforms ?? []).map((platform) => (
-            <Link
-              key={platform.label}
-              href={platform.url}
-              target="_blank"
-              rel="noreferrer"
-              className={cn(
-                'footer-social-link group inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all duration-200',
-                socialToneClass[platform.label.toLowerCase()] ?? 'social-tone-github'
-              )}
-            >
-              <SocialIcon
-                name={platform.label.toLowerCase()}
-                className="footer-social-icon transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-110"
-              />
-              {platform.label}
-              <ExternalLink className="h-3.5 w-3.5" />
-            </Link>
-          ))}
-        </div>
-      </section>
+      </MotionReveal>
     </PageContainer>
   );
 }

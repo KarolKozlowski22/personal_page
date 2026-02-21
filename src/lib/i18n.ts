@@ -41,9 +41,9 @@ const dictionaries = {
       contact: 'Kontakt',
       openSection: 'Otwórz sekcję',
       highlights: {
-        education: 'Zaplecze akademickie, certyfikaty i obszary specjalizacji.',
-        career: 'Aktualna rola, wpływ i odpowiedzialność inżynierska.',
-        podcast: 'Odcinki, proces myślenia i edukacja społeczności.'
+        education: 'Zaplecze akademickie, projekty i praca inżynierska.',
+        career: 'Aktualna pozycja oraz pozycje w przeszłości.',
+        podcast: 'Odcinki, wizja podcastu oraz shortsy.'
       }
     },
     voice: {
@@ -148,9 +148,9 @@ const dictionaries = {
       contact: 'Contact',
       openSection: 'Open section',
       highlights: {
-        education: 'Academic background, certifications, and focus areas.',
-        career: 'Current role, impact, and engineering ownership.',
-        podcast: 'Episodes, thought process, and community learning.'
+        education: 'Academic background, projects, and engineering thesis.',
+        career: 'Current position and previous roles.',
+        podcast: 'Episodes, podcast vision, and shorts.'
       }
     },
     voice: {

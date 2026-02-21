@@ -48,6 +48,14 @@ export function VoiceIntro({
   const [audioDuration, setAudioDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const formatTime = (seconds: number) => {
+    if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+    const total = Math.floor(seconds);
+    const mins = Math.floor(total / 60);
+    const secs = total % 60;
+    return `${mins}:${String(secs).padStart(2, '0')}`;
+  };
+
   const safeTranscript = useMemo(
     () => [...transcript].sort((a, b) => a.time - b.time),
     [transcript]
@@ -131,6 +139,8 @@ export function VoiceIntro({
     }
   };
 
+  const progressPercent = audioDuration > 0 ? Math.min((currentTime / audioDuration) * 100, 100) : 0;
+
   return (
     <Card className="overflow-hidden border-primary/20">
       <CardHeader>
@@ -189,6 +199,29 @@ export function VoiceIntro({
                 </motion.div>
               </AnimatePresence>
             )}
+          </div>
+
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-[11px] text-muted-foreground sm:text-xs">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(audioDuration)}</span>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={audioDuration || 1}
+              step={0.05}
+              value={Math.min(currentTime, audioDuration || currentTime)}
+              onChange={(event) => {
+                const nextTime = Number(event.target.value);
+                setCurrentTime(nextTime);
+                const audio = audioRef.current;
+                if (audio) audio.currentTime = nextTime;
+              }}
+              aria-label="Audio progress"
+              className="audio-seekbar w-full"
+              style={{ '--seek-progress': `${progressPercent}%` } as React.CSSProperties}
+            />
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">

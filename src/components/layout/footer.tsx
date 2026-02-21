@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { SocialIcon } from '@/components/ui/brand-icons';
 import { siteConfig } from '@/config/site';
+import { getServerLocale } from '@/lib/i18n-server';
 import { cn } from '@/lib/utils';
 
 const socialLabels: Record<string, string> = {
@@ -31,10 +32,23 @@ const socialToneClass: Record<string, string> = {
 };
 
 export function Footer() {
+  const locale = getServerLocale();
+  const isPl = locale === 'pl';
+  const year = new Date().getFullYear();
+
+  const availabilityLabel = isPl ? 'Dostępny do współpracy' : 'Available for collaboration';
+
   return (
-    <footer className="mt-8 border-t border-border/70 bg-card/45">
-      <div className="container flex justify-center py-8">
-        <div className="flex flex-wrap gap-2 sm:gap-3">
+    <footer className="footer-shell mt-10">
+      <div className="container space-y-5 py-7">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="footer-pill footer-pill-status">
+            <span className="footer-status-dot" aria-hidden="true" />
+            {availabilityLabel}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {socials.map((social) => (
             <Link
               key={social.label}
@@ -53,6 +67,10 @@ export function Footer() {
               {social.label}
             </Link>
           ))}
+        </div>
+
+        <div className="flex flex-col gap-2 border-t border-border/60 pt-3 text-xs text-muted-foreground/75 sm:flex-row sm:items-center sm:justify-between">
+          <p>{`© ${year} ${siteConfig.author}`}</p>
         </div>
       </div>
     </footer>

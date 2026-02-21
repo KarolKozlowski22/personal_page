@@ -16,7 +16,10 @@ import { getServerLocale } from '@/lib/i18n-server';
 export default async function HomePage() {
   const locale = getServerLocale();
   const dictionary = getDictionary(locale);
-  const transcript = await getJsonContent<TranscriptLine[]>('intro-transcript.json');
+  const transcript = await getJsonContent<TranscriptLine[]>(
+    locale === 'en' ? 'intro-transcript.en.json' : 'intro-transcript.pl.json'
+  );
+  const audioSrc = locale === 'en' ? '/audio/intro-en.mp3' : '/audio/intro-pl.mp3';
 
   const highlights = [
     {
@@ -41,7 +44,7 @@ export default async function HomePage() {
 
   return (
     <PageContainer className="space-y-16">
-      <MotionReveal>
+      <MotionReveal revealKey="home-hero-block">
         <section className="space-y-6 sm:space-y-8">
           <Badge variant="secondary" className="rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.18em]">
             {siteConfig.role}
@@ -85,7 +88,7 @@ export default async function HomePage() {
         {highlights.map((item, index) => {
           const Icon = item.icon;
           return (
-            <MotionReveal key={item.title} delay={index * 0.05}>
+            <MotionReveal key={item.title} delay={index * 0.05} revealKey={`home-highlight-${item.title}`}>
               <Card className="h-full">
                 <CardHeader>
                   <Icon className="mb-4 h-5 w-5 text-primary" />
@@ -107,11 +110,11 @@ export default async function HomePage() {
         })}
       </section>
 
-      <MotionReveal delay={0.15}>
+      <MotionReveal delay={0.15} revealKey="home-voice-intro">
         <VoiceIntro
           imageSrc={siteConfig.voiceIntro.imageSrc}
           imageAlt={siteConfig.voiceIntro.imageAlt}
-          audioSrc={siteConfig.voiceIntro.audioSrc}
+          audioSrc={audioSrc}
           transcript={transcript}
           title={dictionary.voice.title}
           placeholderText={dictionary.voice.placeholder}

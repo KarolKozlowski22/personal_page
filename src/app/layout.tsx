@@ -6,6 +6,7 @@ import { AmbientBackdrop } from '@/components/layout/ambient-backdrop';
 import { Footer } from '@/components/layout/footer';
 import { PageTransition } from '@/components/layout/page-transition';
 import { LanguageProvider } from '@/components/language-provider';
+import { SocialPromoPopup } from '@/components/social-promo-popup';
 import { Navbar } from '@/components/layout/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { siteConfig } from '@/config/site';
@@ -21,6 +22,8 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.author}`
   },
   description: siteConfig.description,
+  keywords: siteConfig.seoKeywords,
+  category: 'technology',
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,
@@ -32,6 +35,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description
+  },
+  alternates: {
+    canonical: siteConfig.url
   }
 };
 
@@ -54,6 +60,7 @@ export default function RootLayout({
                 <PageTransition>{children}</PageTransition>
               </main>
               <Footer />
+              <SocialPromoPopup />
             </div>
           </ThemeProvider>
         </LanguageProvider>

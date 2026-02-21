@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { InteractiveProse } from '@/components/interactive-prose';
+import { MotionReveal } from '@/components/motion-reveal';
 import { PageContainer } from '@/components/layout/page-container';
 import { Card, CardContent } from '@/components/ui/card';
 import { siteConfig } from '@/config/site';
@@ -19,23 +19,12 @@ export default async function EducationPage() {
 
   return (
     <PageContainer className="space-y-8 md:space-y-10">
-      <div className="mb-8 max-w-2xl space-y-2">
-        <InteractiveProse
-          className="vision-prose experience-prose font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl"
-          wordDelayMs={180}
-          sequenceKey="education-flow"
-          step={1}
-        >
+      <MotionReveal revealKey="education-title">
+        <div className="vision-prose experience-prose mb-8 max-w-2xl space-y-2 font-display text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl">
           <h1>{dictionary.education.title}</h1>
-        </InteractiveProse>
-      </div>
-      <InteractiveProse
-        className="space-y-4"
-        sequenceKey="education-flow"
-        step={2}
-        hideUntilStart
-        typing={false}
-      >
+        </div>
+      </MotionReveal>
+      <MotionReveal delay={0.08} revealKey="education-gallery">
         <section className="space-y-4">
           <div className="grid gap-4 md:grid-cols-12">
             <div className="group relative overflow-hidden rounded-2xl border border-border/70 bg-muted/30 shadow-[0_22px_38px_-28px_hsl(var(--primary)/0.42)] md:col-span-7">
@@ -73,20 +62,13 @@ export default async function EducationPage() {
             </div>
           </div>
         </section>
-      </InteractiveProse>
+      </MotionReveal>
 
-      <Card>
-        <CardContent className="pt-6">
-          <InteractiveProse
-            className="prose-custom vision-prose experience-prose"
-            sequenceKey="education-flow"
-            step={3}
-            hideUntilStart
-          >
-            {content}
-          </InteractiveProse>
-        </CardContent>
-      </Card>
+      <MotionReveal delay={0.14} revealKey="education-content">
+        <Card>
+          <CardContent className="prose-custom vision-prose experience-prose pt-6">{content}</CardContent>
+        </Card>
+      </MotionReveal>
     </PageContainer>
   );
 }

@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { InteractiveProse } from '@/components/interactive-prose';
+import { MotionReveal } from '@/components/motion-reveal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export type TimelineItem = {
@@ -13,14 +13,10 @@ export type TimelineItem = {
 
 export function Timeline({
   items,
-  remoteLabel = 'Remote',
-  sequenceKey,
-  startStep = 1
+  remoteLabel = 'Remote'
 }: {
   items: TimelineItem[];
   remoteLabel?: string;
-  sequenceKey?: string;
-  startStep?: number;
 }) {
   const tagStyle = (cardIndex: number, tagIndex: number) =>
     ({
@@ -32,37 +28,37 @@ export function Timeline({
       {items.map((item, index) => (
         <li key={`${item.title}-${item.period}`} className="relative mb-6 sm:mb-8">
           <span className="absolute -left-[1.45rem] top-6 h-3 w-3 rounded-full bg-primary sm:-left-[2.15rem]" />
-          <InteractiveProse
-            className="vision-prose"
-            wordDelayMs={120}
-            sequenceKey={sequenceKey}
-            step={startStep + index}
-            hideUntilStart
+          <MotionReveal
+            delay={index * 0.05}
+            direction={index % 2 === 0 ? 'left' : 'right'}
+            revealKey={`timeline-${item.title}-${item.period}`}
           >
-            <Card>
-              <CardHeader>
-                <p className="text-sm text-muted-foreground">{item.period}</p>
-                <CardTitle className="timeline-role-title text-lg">{item.title}</CardTitle>
-                <p className="timeline-meta text-sm text-muted-foreground">
-                  {item.company ? `${item.company} • ` : ''}
-                  {item.location ?? remoteLabel}
-                </p>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
-                {item.tags?.length ? (
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag, tagIndex) => (
-                      <Badge key={tag} variant="secondary" className="timeline-tech-pill" style={tagStyle(index, tagIndex)}>
-                        <span className="timeline-tech-dot" aria-hidden="true" />
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                ) : null}
-              </CardContent>
-            </Card>
-          </InteractiveProse>
+            <div className="vision-prose">
+              <Card>
+                <CardHeader>
+                  <p className="text-sm text-muted-foreground">{item.period}</p>
+                  <CardTitle className="timeline-role-title text-lg">{item.title}</CardTitle>
+                  <p className="timeline-meta text-sm text-muted-foreground">
+                    {item.company ? `${item.company} • ` : ''}
+                    {item.location ?? remoteLabel}
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
+                  {item.tags?.length ? (
+                    <div className="flex flex-wrap gap-2">
+                      {item.tags.map((tag, tagIndex) => (
+                        <Badge key={tag} variant="secondary" className="timeline-tech-pill" style={tagStyle(index, tagIndex)}>
+                          <span className="timeline-tech-dot" aria-hidden="true" />
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : null}
+                </CardContent>
+              </Card>
+            </div>
+          </MotionReveal>
         </li>
       ))}
     </ol>
