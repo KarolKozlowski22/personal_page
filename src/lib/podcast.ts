@@ -12,8 +12,6 @@ export type PodcastEpisode = {
   duration?: string;
   audioUrl?: string;
   episodeUrl?: string;
-  spotifyUrl?: string;
-  youtubeUrl?: string;
   spotifyEmbed?: string;
   youtubeEmbed?: string;
 };
@@ -27,6 +25,11 @@ const parser = new Parser({
 function stripHtml(html?: string) {
   if (!html) return 'No description available.';
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function truncateText(text: string, maxLength = 280) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`;
 }
 
 function findUrl(text: string, pattern: RegExp) {
@@ -75,7 +78,7 @@ export async function getPodcastEpisodes() {
       const date = item.isoDate ?? item.pubDate ?? new Date().toISOString();
       const title = item.title?.trim() || 'Untitled Episode';
       const descriptionRaw = item.contentSnippet || item.content || item.summary || '';
-      const description = stripHtml(descriptionRaw);
+      const description = truncateText(stripHtml(descriptionRaw));
       const searchableText = `${descriptionRaw} ${item.link ?? ''}`;
 
       const spotifyUrl =
@@ -99,8 +102,6 @@ export async function getPodcastEpisodes() {
         duration: itunesItem['itunes:duration'] ?? undefined,
         audioUrl: item.enclosure?.url,
         episodeUrl: item.link,
-        spotifyUrl,
-        youtubeUrl,
         spotifyEmbed: normalizeSpotifyEmbed(spotifyUrl),
         youtubeEmbed: normalizeYoutubeUrl(youtubeUrl)
       };
