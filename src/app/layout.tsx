@@ -19,9 +19,10 @@ const sora = Sora({ subsets: ['latin'], variable: '--font-sora' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.browserTitle,
   title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.author}`
+    default: siteConfig.browserTitle,
+    template: `%s | ${siteConfig.browserTitle}`
   },
   description: siteConfig.description,
   keywords: siteConfig.seoKeywords,

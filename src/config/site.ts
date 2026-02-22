@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: 'My Personal Website',
+  browserTitle: 'karolkozlo.pl',
   title: 'Karol Kozłowski | Mid DevOps Engineer',
   description:
     'Mid DevOps Engineer portfolio covering Linux, security, CI/CD, Kubernetes, automation, career timeline, education, and podcast content.',
