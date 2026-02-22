@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Manrope, Sora } from 'next/font/google';
 
 import '@/app/globals.css';
@@ -62,6 +64,8 @@ export default function RootLayout({
               <Footer />
               <SocialPromoPopup />
             </div>
+            <Analytics />
+            <SpeedInsights />
           </ThemeProvider>
         </LanguageProvider>
       </body>
