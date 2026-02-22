@@ -26,8 +26,6 @@ export const siteConfig = {
   author: 'Karol Kozłowski',
   role: 'DevOps Engineer @ Visa',
   location: 'Poland',
-  podcastRssUrl:
-    process.env.PODCAST_RSS_URL ?? 'https://feeds.simplecast.com/54nAGcIl',
   youtubeChannelId: process.env.YOUTUBE_CHANNEL_ID ?? '',
   social: {
     github: 'https://github.com/KarolKozlowski22',

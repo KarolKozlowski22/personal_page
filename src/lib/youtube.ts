@@ -1,4 +1,3 @@
-import Parser from 'rss-parser';
 import { unstable_cache } from 'next/cache';
 
 import { siteConfig } from '@/config/site';
@@ -61,45 +60,12 @@ type LastKnownGoodEntry = {
   data: YouTubeUploadsResult;
 };
 
-const parser = new Parser();
 const lastKnownGoodByChannel = new Map<string, LastKnownGoodEntry>();
 const YOUTUBE_REVALIDATE_SECONDS = 1800;
 const YOUTUBE_MAX_PAGES = Number.parseInt(process.env.YOUTUBE_MAX_PAGES ?? '4', 10);
 const SAFE_MAX_PAGES = Number.isFinite(YOUTUBE_MAX_PAGES)
   ? Math.min(Math.max(YOUTUBE_MAX_PAGES, 1), 12)
   : 4;
-
-function extractDescription(item: Parser.Item) {
-  const raw = item.contentSnippet ?? item.content ?? '';
-  return raw.replace(/\s+/g, ' ').trim();
-}
-
-function normalizeYouTubeUrl(url?: string) {
-  if (!url) return '';
-  try {
-    const parsed = new URL(url);
-    if (parsed.hostname.includes('youtu.be')) {
-      const id = parsed.pathname.slice(1);
-      return id ? `https://www.youtube.com/watch?v=${id}` : '';
-    }
-    if (parsed.hostname.includes('youtube.com')) {
-      if (parsed.pathname.includes('/shorts/')) {
-        const id = parsed.pathname.split('/').filter(Boolean).pop();
-        return id ? `https://www.youtube.com/shorts/${id}` : '';
-      }
-      const id = parsed.searchParams.get('v') || parsed.pathname.split('/').filter(Boolean).pop();
-      return id ? `https://www.youtube.com/watch?v=${id}` : '';
-    }
-  } catch {
-    return '';
-  }
-  return '';
-}
-
-function isShortItem(title: string, description: string, url: string) {
-  const haystack = `${title} ${description} ${url}`.toLowerCase();
-  return haystack.includes('#shorts') || haystack.includes('/shorts/');
-}
 
 function parseDurationToSeconds(durationIso?: string) {
   if (!durationIso) return 0;
@@ -122,32 +88,6 @@ function toTimestamp(value?: string) {
   if (!value) return 0;
   const ts = Date.parse(value);
   return Number.isNaN(ts) ? 0 : ts;
-}
-
-async function fetchYouTubeUploads(channelId: string) {
-  const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-  const feed = await parser.parseURL(feedUrl);
-
-  const items = (feed.items ?? [])
-    .map((item) => {
-      const title = item.title?.trim() ?? '';
-      const description = extractDescription(item);
-      const url = normalizeYouTubeUrl(item.link ?? '');
-
-      if (!title || !url) return null;
-
-      return {
-        title,
-        url,
-        description: description || undefined,
-        publishedAt: item.isoDate ?? item.pubDate ?? undefined,
-        isShort: isShortItem(title, description, url),
-        episodeKey: extractEpisodeKey(title, description) || undefined
-      } as YouTubeVideo;
-    })
-    .filter((item): item is YouTubeVideo => Boolean(item));
-
-  return items;
 }
 
 function chunkArray<T>(array: T[], chunkSize: number) {
@@ -360,12 +300,6 @@ async function resolveChannelIdFromHandleUrl(youtubeUrl: string) {
   }
 }
 
-const fetchYouTubeUploadsCached = unstable_cache(
-  async (channelId: string) => fetchYouTubeUploads(channelId),
-  ['youtube-uploads-feed'],
-  { revalidate: YOUTUBE_REVALIDATE_SECONDS }
-);
-
 const fetchYouTubeUploadsApiCached = unstable_cache(
   async (channelId: string, apiKey: string) => fetchYouTubeUploadsWithApi(channelId, apiKey),
   ['youtube-uploads-api'],
@@ -397,11 +331,18 @@ export async function getYouTubeUploadsSafe(): Promise<YouTubeUploadsResult> {
     };
   }
 
+  const apiKey = process.env.YOUTUBE_API_KEY?.trim() ?? '';
+  if (!apiKey) {
+    console.warn('[youtube] source=static-fallback reason=missing-youtube-api-key');
+    return {
+      featured: [] as YouTubeVideo[],
+      shorts: [] as YouTubeVideo[],
+      liveAvailable: false
+    };
+  }
+
   try {
-    const apiKey = process.env.YOUTUBE_API_KEY?.trim() ?? '';
-    const uploads: YouTubeVideo[] = apiKey
-      ? await fetchYouTubeUploadsApiCached(channelId, apiKey)
-      : await fetchYouTubeUploadsCached(channelId);
+    const uploads: YouTubeVideo[] = await fetchYouTubeUploadsApiCached(channelId, apiKey);
 
     const featured = uploads.filter((item: YouTubeVideo) => {
       if (item.url.includes('/shorts/')) return false;
@@ -409,14 +350,10 @@ export async function getYouTubeUploadsSafe(): Promise<YouTubeUploadsResult> {
       // Always include full episodes.
       return duration === 0 || duration > 180;
     });
-    const shorts = apiKey
-      ? selectBestShortsPerEpisode(uploads)
-      : uploads.filter((item: YouTubeVideo) => item.isShort).slice(0, 6);
+    const shorts = selectBestShortsPerEpisode(uploads);
 
     const liveResult: YouTubeUploadsResult = { featured, shorts, liveAvailable: true };
-    console.info(
-      `[youtube] source=${apiKey ? 'live-api' : 'live-rss'} status=ok featured=${featured.length} shorts=${shorts.length}`
-    );
+    console.info(`[youtube] source=live-api status=ok featured=${featured.length} shorts=${shorts.length}`);
     lastKnownGoodByChannel.set(channelId, {
       updatedAt: Date.now(),
       data: liveResult
